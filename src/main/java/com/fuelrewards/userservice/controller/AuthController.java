@@ -60,7 +60,7 @@ public class AuthController {
         response += "\"firstName\":\""+user.getFirstName()+"\",";
         response += "\"lastName\":\""+user.getLastName()+"\",";
         response += "\"email\":\""+user.getEmail()+"\",";
-        response += "\"homeOffice\":\""+user.getCardNumber()+"\"";
+        response += "\"cardNumber\":\""+user.getCardNumber()+"\"";
         response += "}";
 
         return ResponseEntity.ok(response);
