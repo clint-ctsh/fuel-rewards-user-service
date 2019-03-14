@@ -3,9 +3,12 @@ package com.fuelrewards.userservice.controller;
 import com.fuelrewards.userservice.message.request.LoginForm;
 import com.fuelrewards.userservice.message.request.SignupForm;
 import com.fuelrewards.userservice.message.response.JwtResponse;
+import com.fuelrewards.userservice.message.response.SignupResponse;
 import com.fuelrewards.userservice.model.User;
 import com.fuelrewards.userservice.repository.UserRepository;
 import com.fuelrewards.userservice.security.jwt.JwtProvider;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class AuthController {
@@ -70,9 +74,7 @@ public class AuthController {
     @PostMapping("/api/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupForm signUpRequest) {
 
-
         String lowerCasedEmail = signUpRequest.getEmail().toLowerCase(); // always lower case email
-
 
         if(userRepository.existsByEmail(lowerCasedEmail)) {
             return new ResponseEntity<>("{\"message\": \"That email already exists\"}", HttpStatus.BAD_REQUEST);
@@ -80,8 +82,12 @@ public class AuthController {
 
         User user = new User(lowerCasedEmail, encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getFirstName(), signUpRequest.getLastName());
+        user.setCardNumber(UUID.randomUUID().toString()); // assign card number
         userRepository.save(user);
 
-        return ResponseEntity.ok(getJwt(signUpRequest.getEmail(), signUpRequest.getPassword()));
+        JwtResponse jwtResponse = getJwt(signUpRequest.getEmail(), signUpRequest.getPassword());
+
+        return ResponseEntity.ok(new SignupResponse(jwtResponse.getAccessToken(),
+                jwtResponse.getTokenType(), user.getCardNumber()));
     }
 }

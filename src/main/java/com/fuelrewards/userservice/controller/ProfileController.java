@@ -72,7 +72,6 @@ public class ProfileController {
         Optional<User> user = getUserFromAuthHeader(authHeader);
 
         if (user.isPresent()) {
-            user.get().setCardNumber(UUID.randomUUID().toString());
             userRepository.save(user.get()); // update user
             return ResponseEntity.ok(user.get());
         } else {
