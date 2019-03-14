@@ -60,7 +60,7 @@ public class AuthController {
 
         String response = "";
         response += "{";
-        response += "\"accessToken\":\""+jwtResponse.getAccessToken()+"\",";
+        response += "\"token\":\""+jwtResponse.getAccessToken()+"\",";
         response += "\"firstName\":\""+user.getFirstName()+"\",";
         response += "\"lastName\":\""+user.getLastName()+"\",";
         response += "\"email\":\""+user.getEmail()+"\",";
