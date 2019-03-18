@@ -7,8 +7,6 @@ import com.fuelrewards.userservice.message.response.SignupResponse;
 import com.fuelrewards.userservice.model.User;
 import com.fuelrewards.userservice.repository.UserRepository;
 import com.fuelrewards.userservice.security.jwt.JwtProvider;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
